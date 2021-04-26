@@ -216,7 +216,6 @@ RUN python3 -m pip install --upgrade pip \
     "flask-classful==0.14.2" \
     "graphviz==0.13.2" \
     "SgGo==0.5.3" \
-    "kivy==1.11.1" \
     "pycryptodome==3.9.7" \
     "psutil==5.7.0" \
     "pyinstaller==3.6" \
