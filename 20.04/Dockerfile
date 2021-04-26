@@ -84,6 +84,34 @@ RUN rm /usr/bin/gcc \
 
 RUN mkdir -p /workspace/tmp
 
+# Install OpenCV for C and C++
+RUN cd /workspace/tmp/ \
+    && wget -O opencv-3.4.zip \
+    https://codeload.github.com/opencv/opencv/zip/3.4 \
+    && unzip opencv-3.4.zip \
+    && cd opencv-3.4 \
+    && mkdir -p build \
+    && cd build \
+    && cmake .. \
+    -DCMAKE_BUILD_TYPE=release \
+    -DCMAKE_INSTALL_PREFIX=/usr/local/ \
+    -DBUILD_PROTOBUF=OFF \
+    -DBUILD_opencv_dnn=OFF \
+    -DBUILD_TESTS=OFF \
+    -DBUILD_PERF_TESTS=OFF \
+    -DBUILD_EXAMPLES=OFF \
+    -DBUILD_opencv_apps=OFF \
+    -DWITH_CUBLAS=OFF \
+    -DWITH_CUDA=OFF \
+    -DWITH_CUFFT=OFF \
+    -DWITH_OPENCL=OFF \
+    -DWITH_OPENCLAMDBLAS=OFF \
+    -DWITH_OPENCLAMDFFT=OFF \
+    && make -j$MAKE_THREADS \
+    && make install \
+    && ldconfig \
+    && rm -rf /workspace/tmp/*
+
 # Install protobuf
 RUN cd /workspace/tmp/ \
     && wget -O protobuf-3.5.1.1.zip \
@@ -91,6 +119,55 @@ RUN cd /workspace/tmp/ \
     && unzip protobuf-3.5.1.1.zip \
     && cd protobuf-3.5.1.1 \
     && ./autogen.sh \
+    && ./configure \
+    && make -j$MAKE_THREADS \
+    && make install \
+    && ldconfig \
+    && rm -rf /workspace/tmp/*
+
+# Install gtest
+RUN cd /workspace/tmp/ \
+    && wget -O googletest-release-1.8.0.zip \
+    https://codeload.github.com/google/googletest/zip/release-1.8.0 \
+    && unzip googletest-release-1.8.0.zip \
+    && cd googletest-release-1.8.0 \
+    && mkdir -p build \
+    && cd build \
+    && cmake .. \
+    -G"Unix Makefiles" \
+    -DCMAKE_BUILD_TYPE=release \
+    -DCMAKE_INSTALL_PREFIX=/usr/local/ \
+    -DBUILD_SHARED_LIBS=true \
+    -DBUILD_STATIC_LIBS=true \
+    && make -j$MAKE_THREADS \
+    && make install \
+    && ldconfig \
+    && rm -rf /workspace/tmp/*
+
+# Install gflags
+RUN cd /workspace/tmp/ \
+    && wget -O gflags-2.2.2.zip \
+    https://codeload.github.com/gflags/gflags/zip/v2.2.2 \
+    && unzip gflags-2.2.2.zip \
+    && cd gflags-2.2.2 \
+    && mkdir -p build \
+    && cd build \
+    && cmake .. \
+    -DCMAKE_BUILD_TYPE=release \
+    -DCMAKE_INSTALL_PREFIX=/usr/local/ \
+    -DBUILD_SHARED_LIBS=true \
+    -DBUILD_STATIC_LIBS=true \
+    && make -j$MAKE_THREADS \
+    && make install \
+    && ldconfig \
+    && rm -rf /workspace/tmp/*
+
+# Install glog
+RUN cd /workspace/tmp/ \
+    && wget -O glog-0.3.4.zip \
+    https://codeload.github.com/google/glog/zip/v0.3.4 \
+    && unzip glog-0.3.4.zip \
+    && cd glog-0.3.4 \
     && ./configure \
     && make -j$MAKE_THREADS \
     && make install \
