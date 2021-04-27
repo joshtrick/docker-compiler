@@ -67,6 +67,7 @@ RUN add-apt-repository ppa:deadsnakes/ppa -y \
     && apt-get install -y --no-install-recommends \
     python3.6 \
     python3.6-dev \
+    python3-pip \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
            /tmp/* \
