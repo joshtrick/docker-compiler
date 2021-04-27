@@ -62,7 +62,7 @@ RUN apt-get update -y \
            /var/tmp/* \
            /usr/share/doc/*
 
-RUN add-apt-repository ppa:some/ppa -y \
+RUN add-apt-repository ppa:deadsnakes/ppa -y \
     && apt-get update -y \
     && apt-get install -y --no-install-recommends \
     python3.6 \
