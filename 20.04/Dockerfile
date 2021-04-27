@@ -47,9 +47,6 @@ RUN apt-get update -y \
     net-tools \
     openssh-server \
     pkg-config\
-    python3 \
-    python3-dev \
-    python3-pip \
     sudo \
     software-properties-common \
     unzip \
@@ -64,6 +61,20 @@ RUN apt-get update -y \
            /tmp/* \
            /var/tmp/* \
            /usr/share/doc/*
+
+RUN add-apt-repository ppa:some/ppa -y \
+    && apt-get update -y \
+    && apt-get install -y --no-install-recommends \
+    python3.6 \
+    python3.6-dev \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+           /tmp/* \
+           /var/tmp/* \
+           /usr/share/doc/*
+
+RUN rm /usr/bin/python3 \
+    && ln -s /usr/bin/python3.6 /usr/bin/python3
 
 RUN echo "deb http://downloads.skewed.de/apt focal main" >> /etc/apt/sources.list \
     && apt-key adv --keyserver keys.openpgp.org --recv-key 612DEFB798507F25 \
